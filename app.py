@@ -111,12 +111,14 @@ def render_styles() -> None:
 
                 .upload-label {
                     display: block;
+                    width: 100%;
+                    text-align: center;
                     font-size: 0.78rem;
                     font-weight: 600;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
                     color: #6B7D99;
-                    margin-bottom: 0.4rem;
+                    margin-bottom: 0.6rem;
                 }
 
                 [data-testid="stFileUploader"] {
