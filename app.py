@@ -409,10 +409,10 @@ def predict_image(model, image: Image.Image):
 
 def render_hero() -> None:
     html = (
-        '<div class="hero">'
+        '<div class="hero-card">'
         '<div class="hero-eyebrow">ResNet50 · Transfer Learning</div>'
         '<h1 class="hero-title">Cataract<span>AI</span></h1>'
-        '<p class="hero-sub">Unggah foto mata untuk mendeteksi tingkat keparahan katarak secara otomatis - Normal, Immature, atau Mature.</p>'
+        '<div class="hero-subtitle">Unggah foto mata untuk mendeteksi tingkat keparahan katarak secara otomatis - Normal, Immature, atau Mature.</div>'
         '</div>'
     )
 
@@ -557,12 +557,14 @@ def main() -> None:
 
         return
 
-    uploaded_file = st.file_uploader(
-        label="Foto Mata",
-        type=["jpg", "jpeg", "png"],
-        label_visibility="collapsed",
-        help="Format gambar yang didukung: JPG, JPEG, dan PNG.",
-    )
+    _, main_col, _ = st.columns([1, 3, 1], gap="small")
+    with main_col:
+        uploaded_file = st.file_uploader(
+            label="Foto Mata",
+            type=["jpg", "jpeg", "png"],
+            label_visibility="collapsed",
+            help="Format gambar yang didukung: JPG, JPEG, dan PNG.",
+        )
 
     if uploaded_file is None:
         render_disclaimer()
