@@ -149,6 +149,12 @@ def render_styles() -> None:
                     transform 0.2s ease;
             }
 
+            [data-testid="stFileUploader"] small,
+            [data-testid="stFileUploader"] p,
+            [data-testid="stFileUploader"] span {
+                white-space: nowrap;
+            }
+
             [data-testid="stFileUploader"] section:hover {
                 border-color: #2563EB;
                 background: #F7FAFF;
@@ -160,8 +166,8 @@ def render_styles() -> None:
                 align-items: center;
                 justify-content: center;
                 white-space: nowrap;
-                min-width: 128px;
-                padding: 0.55rem 1rem;
+                min-width: 110px;
+                padding: 0.5rem 0.85rem;
                 border: 1px solid #CBD5E1;
                 border-radius: 10px;
                 background: #FFFFFF;
