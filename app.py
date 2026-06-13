@@ -305,7 +305,7 @@ CLASS_META = {
 
 # ── Model path ────────────────────────────────────────────────────────────────
 
-BASE_DIR = Path(**file**).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "best_model.keras"
 
 # ── Model loader ──────────────────────────────────────────────────────────────
