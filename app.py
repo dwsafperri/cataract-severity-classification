@@ -71,6 +71,17 @@ def render_styles() -> None:
                     max-width: 720px;
                 }
 
+                .main-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .main-content > * {
+                    width: 100%;
+                    max-width: 860px;
+                }
+
                 .hero {
                     text-align: center;
                     padding: 3rem 0 2rem;
@@ -122,6 +133,8 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
+                    max-width: 860px;
+                    margin: 0 auto;
                 }
 
                 [data-testid="stFileUploader"]:hover {
@@ -134,6 +147,7 @@ def render_styles() -> None:
                     border: 1px solid #E2E8F0;
                     background: #FFFFFF;
                     box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
+                    max-width: 100%;
                 }
 
                 .result-label {
@@ -292,6 +306,10 @@ def render_styles() -> None:
                     .result-card {
                         padding: 1.4rem;
                     }
+
+                    .main-content > * {
+                        max-width: 100%;
+                    }
                 }
             </style>
             """
@@ -441,6 +459,7 @@ def render_disclaimer() -> None:
 def main() -> None:
     render_page_config()
     render_styles()
+    st.markdown('<div class="main-content">', unsafe_allow_html=True)
     render_hero()
 
     try:
@@ -448,6 +467,7 @@ def main() -> None:
             model = load_cataract_model()
     except FileNotFoundError as error:
         st.error(f"Model tidak ditemukan. {error}", icon="⚠️")
+        st.markdown('</div>', unsafe_allow_html=True)
         return
     except Exception as error:
         st.error(
@@ -460,6 +480,8 @@ def main() -> None:
             st.write("Versi Keras:", keras.__version__)
             st.write("Lokasi model:", str(MODEL_PATH))
             st.code(str(error))
+
+        st.markdown('</div>', unsafe_allow_html=True)
         return
 
     st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
@@ -467,6 +489,7 @@ def main() -> None:
 
     if uploaded_file is None:
         render_disclaimer()
+        st.markdown('</div>', unsafe_allow_html=True)
         return
 
     try:
@@ -475,14 +498,15 @@ def main() -> None:
         st.error(
             "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
         )
+        st.markdown('</div>', unsafe_allow_html=True)
         return
 
-    image_column, result_column = st.columns([1, 1], gap="large")
-
-    with image_column:
+    preview_column = st.container()
+    with preview_column:
         st.image(image, use_container_width=True)
 
-    with result_column:
+    result_container = st.container()
+    with result_container:
         try:
             with st.spinner("Menganalisis gambar..."):
                 time.sleep(0.4)
@@ -492,11 +516,13 @@ def main() -> None:
 
             with st.expander("Lihat detail error"):
                 st.code(str(error))
+            st.markdown('</div>', unsafe_allow_html=True)
             return
 
         render_result(label, confidence, all_probabilities)
 
     render_disclaimer()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
