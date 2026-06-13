@@ -112,7 +112,7 @@ def render_styles() -> None:
                     color: #556070;
                     line-height: 1.65;
                     text-align: center;
-                    width: min(100%, 600px);
+                    width: min(100%, 500px);
                     margin: 0 auto;
                 }
 
