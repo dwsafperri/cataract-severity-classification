@@ -67,12 +67,9 @@ def render_styles() -> None:
                 }
 
                 .block-container {
-                    min-height: 100vh;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    padding: 2rem 1.5rem 3rem;
-                    max-width: 640px;
+                    min-height: auto;
+                    padding: 2.2rem 1.25rem 2.8rem;
+                    max-width: 960px;
                 }
 
                 .main-content-spacer {
@@ -81,7 +78,7 @@ def render_styles() -> None:
 
                 .hero {
                     text-align: center;
-                    padding: 3rem 0 2rem;
+                    padding: 2rem 0 1.5rem;
                 }
 
                 .hero-eyebrow {
@@ -133,7 +130,7 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
-                    width: min(100%, 640px);
+                    width: 100%;
                     margin: 0 auto;
                 }
 
@@ -147,7 +144,7 @@ def render_styles() -> None:
                     border: 1px solid #E2E8F0;
                     background: #FFFFFF;
                     box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
-                    width: min(100%, 640px);
+                    width: 100%;
                     margin: 0 auto;
                 }
 
@@ -297,7 +294,7 @@ def render_styles() -> None:
 
                 @media (max-width: 640px) {
                     .hero {
-                        padding-top: 2rem;
+                        padding-top: 1.2rem;
                     }
 
                     .hero-title {
@@ -309,6 +306,7 @@ def render_styles() -> None:
                     }
 
                 }
+
             </style>
             """
         ),
@@ -459,6 +457,8 @@ def main() -> None:
     render_styles()
     render_hero()
 
+    _, main_center, _ = st.columns([1.2, 3.2, 1.2], gap="small")
+
     try:
         with st.spinner("Memuat model..."):
             model = load_cataract_model()
@@ -479,41 +479,42 @@ def main() -> None:
 
         return
 
-    st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
-    uploaded_file = render_upload()
+    with main_center:
+        st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
+        uploaded_file = render_upload()
 
-    if uploaded_file is None:
-        render_disclaimer()
-        return
-
-    try:
-        image = Image.open(io.BytesIO(uploaded_file.getvalue()))
-    except Exception:
-        st.error(
-            "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
-        )
-        return
-
-    preview_column = st.container()
-    with preview_column:
-        st.image(image, use_container_width=True)
-
-    result_container = st.container()
-    with result_container:
-        try:
-            with st.spinner("Menganalisis gambar..."):
-                time.sleep(0.4)
-                label, confidence, all_probabilities = predict_image(model, image)
-        except Exception as error:
-            st.error("Terjadi kesalahan saat melakukan prediksi.")
-
-            with st.expander("Lihat detail error"):
-                st.code(str(error))
+        if uploaded_file is None:
+            render_disclaimer()
             return
 
-        render_result(label, confidence, all_probabilities)
+        try:
+            image = Image.open(io.BytesIO(uploaded_file.getvalue()))
+        except Exception:
+            st.error(
+                "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
+            )
+            return
 
-    render_disclaimer()
+        preview_column = st.container()
+        with preview_column:
+            st.image(image, use_container_width=True)
+
+        result_container = st.container()
+        with result_container:
+            try:
+                with st.spinner("Menganalisis gambar..."):
+                    time.sleep(0.4)
+                    label, confidence, all_probabilities = predict_image(model, image)
+            except Exception as error:
+                st.error("Terjadi kesalahan saat melakukan prediksi.")
+
+                with st.expander("Lihat detail error"):
+                    st.code(str(error))
+                return
+
+            render_result(label, confidence, all_probabilities)
+
+        render_disclaimer()
 
 
 if __name__ == "__main__":
