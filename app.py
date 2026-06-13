@@ -67,7 +67,9 @@ def render_styles() -> None:
                 }
 
                 .block-container {
-                    max-width: 900px;
+                    width: 95%;
+                    max-width: 1100px;
+                    margin: 0 auto;
                     padding-top: 2rem;
                     padding-bottom: 3rem;
                 }
@@ -123,6 +125,10 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
+                    width: 100%;
+                    max-width: 760px;
+                    box-sizing: border-box;
+                    margin: 0 auto;
                 }
 
                 [data-testid="stFileUploader"]:hover {
@@ -135,6 +141,10 @@ def render_styles() -> None:
                     border: 1px solid #E2E8F0;
                     background: #FFFFFF;
                     box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
+                    width: 100%;
+                    max-width: 760px;
+                    box-sizing: border-box;
+                    margin: 0 auto;
                 }
 
                 .result-label {
@@ -282,8 +292,14 @@ def render_styles() -> None:
                 }
 
                 @media (max-width: 640px) {
+                    .block-container {
+                        width: 100%;
+                        padding-top: 1rem;
+                        padding-bottom: 1.4rem;
+                    }
+
                     .hero {
-                        padding-top: 2rem;
+                        padding-top: 1rem;
                     }
 
                     .hero-title {
@@ -292,6 +308,20 @@ def render_styles() -> None:
 
                     .result-card {
                         padding: 1.4rem;
+                        max-width: 100%;
+                    }
+
+                    [data-testid="stFileUploader"] {
+                        max-width: 100%;
+                    }
+                }
+
+                @media (min-width: 1200px) {
+                    .hero-title {
+                        font-size: 3rem;
+                    }
+                    .hero-sub {
+                        max-width: 640px;
                     }
                 }
             </style>
