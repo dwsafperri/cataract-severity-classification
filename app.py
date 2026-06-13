@@ -67,18 +67,13 @@ def render_styles() -> None:
                 }
 
                 .block-container {
-                    min-height: auto;
-                    padding: 2.2rem 1.25rem 2.8rem;
-                    max-width: 960px;
-                }
-
-                .main-content-spacer {
-                    height: 0.5rem;
+                    padding: 2.5rem 1.5rem 4rem;
+                    max-width: 720px;
                 }
 
                 .hero {
                     text-align: center;
-                    padding: 2rem 0 1.5rem;
+                    padding: 3rem 0 2rem;
                 }
 
                 .hero-eyebrow {
@@ -104,12 +99,10 @@ def render_styles() -> None:
                 }
 
                 .hero-sub {
-                    display: block;
                     font-size: 0.97rem;
                     color: #556070;
                     line-height: 1.65;
-                    text-align: center;
-                    width: min(100%, 460px);
+                    max-width: 480px;
                     margin: 0 auto;
                 }
 
@@ -120,7 +113,6 @@ def render_styles() -> None:
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
                     color: #6B7D99;
-                    text-align: center;
                     margin-bottom: 0.4rem;
                 }
 
@@ -130,8 +122,6 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
-                    width: 100%;
-                    margin: 0 auto;
                 }
 
                 [data-testid="stFileUploader"]:hover {
@@ -144,8 +134,6 @@ def render_styles() -> None:
                     border: 1px solid #E2E8F0;
                     background: #FFFFFF;
                     box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
-                    width: 100%;
-                    margin: 0 auto;
                 }
 
                 .result-label {
@@ -294,7 +282,7 @@ def render_styles() -> None:
 
                 @media (max-width: 640px) {
                     .hero {
-                        padding-top: 1.2rem;
+                        padding-top: 2rem;
                     }
 
                     .hero-title {
@@ -304,9 +292,7 @@ def render_styles() -> None:
                     .result-card {
                         padding: 1.4rem;
                     }
-
                 }
-
             </style>
             """
         ),
@@ -457,8 +443,6 @@ def main() -> None:
     render_styles()
     render_hero()
 
-    _, main_center, _ = st.columns([1.2, 3.2, 1.2], gap="small")
-
     try:
         with st.spinner("Memuat model..."):
             model = load_cataract_model()
@@ -476,45 +460,43 @@ def main() -> None:
             st.write("Versi Keras:", keras.__version__)
             st.write("Lokasi model:", str(MODEL_PATH))
             st.code(str(error))
-
         return
 
-    with main_center:
-        st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
-        uploaded_file = render_upload()
+    st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
+    uploaded_file = render_upload()
 
-        if uploaded_file is None:
-            render_disclaimer()
-            return
-
-        try:
-            image = Image.open(io.BytesIO(uploaded_file.getvalue()))
-        except Exception:
-            st.error(
-                "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
-            )
-            return
-
-        preview_column = st.container()
-        with preview_column:
-            st.image(image, use_container_width=True)
-
-        result_container = st.container()
-        with result_container:
-            try:
-                with st.spinner("Menganalisis gambar..."):
-                    time.sleep(0.4)
-                    label, confidence, all_probabilities = predict_image(model, image)
-            except Exception as error:
-                st.error("Terjadi kesalahan saat melakukan prediksi.")
-
-                with st.expander("Lihat detail error"):
-                    st.code(str(error))
-                return
-
-            render_result(label, confidence, all_probabilities)
-
+    if uploaded_file is None:
         render_disclaimer()
+        return
+
+    try:
+        image = Image.open(io.BytesIO(uploaded_file.getvalue()))
+    except Exception:
+        st.error(
+            "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
+        )
+        return
+
+    image_column, result_column = st.columns([1, 1], gap="large")
+
+    with image_column:
+        st.image(image, use_container_width=True)
+
+    with result_column:
+        try:
+            with st.spinner("Menganalisis gambar..."):
+                time.sleep(0.4)
+                label, confidence, all_probabilities = predict_image(model, image)
+        except Exception as error:
+            st.error("Terjadi kesalahan saat melakukan prediksi.")
+
+            with st.expander("Lihat detail error"):
+                st.code(str(error))
+            return
+
+        render_result(label, confidence, all_probabilities)
+
+    render_disclaimer()
 
 
 if __name__ == "__main__":
