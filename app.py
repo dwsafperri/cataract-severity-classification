@@ -235,6 +235,11 @@ CLASS_META = {
     },
 }
 
+import os
+
+st.write("Current path:", os.getcwd())
+st.write("Files in repo:", os.listdir("."))
+
 # ── Model loader ──────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_model():
