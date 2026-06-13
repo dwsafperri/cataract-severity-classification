@@ -242,7 +242,8 @@ def load_model():
         model = tf.keras.models.load_model("best_model.keras")
         return model
     except Exception as e:
-        return None
+        st.error(f"Error loading model: {e}")
+        raise e
 
 def preprocess(img: Image.Image) -> np.ndarray:
     img = img.convert("RGB").resize((224, 224))
