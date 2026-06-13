@@ -169,7 +169,10 @@ def render_styles() -> None:
             }
 
             [data-testid="stImage"] img {
-                margin-top: 0.85rem;
+                display: block;
+                width: 100%;
+                max-width: 560px;
+                margin: 0.85rem auto 0;
                 border: 1px solid #E2E8F0;
                 border-radius: 16px;
                 box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
@@ -427,89 +430,34 @@ def render_result(
 ) -> None:
     metadata = CLASS_META[label]
     confidence_percent = confidence * 100
-    probability_rows = []
-
-    for class_name, probability in zip(
-        CLASS_NAMES,
-        probabilities,
-    ):
-        class_metadata = CLASS_META[class_name]
-        probability_percent = float(probability) * 100
-        font_weight = "600" if class_name == label else "500"
-
-        probability_rows.append(
-            dedent(
-                f"""
-                <div class="probability-row">
-                    <span
-                        class="probability-name"
-                        style="font-weight: {font_weight};"
-                    >
-                        {class_name}
-                    </span>
-
-                    <div class="progress-track">
-                        <div
-                            class="progress-fill"
-                            style="
-                                width: {probability_percent:.2f}%;
-                                background: {class_metadata['bar_color']};
-                            "
-                        ></div>
-                    </div>
-
-                    <span class="probability-value">
-                        {probability_percent:.1f}%
-                    </span>
-                </div>
-                """
-            ).strip()
-        )
-
-    result_html = dedent(
-        f"""
-        <div class="result-card">
-            <div class="result-label">
-                Hasil deteksi
-            </div>
-
-            <div class="result-class {metadata['css_class']}">
-                {label}
-            </div>
-
-            <div class="confidence-row">
-                <span class="confidence-value">
-                    {confidence_percent:.1f}% yakin
-                </span>
-
-                <div class="progress-track">
-                    <div
-                        class="progress-fill"
-                        style="
-                            width: {confidence_percent:.2f}%;
-                            background: {metadata['bar_color']};
-                        "
-                    ></div>
-                </div>
-            </div>
-
-            <div class="breakdown-title">
-                Distribusi probabilitas
-            </div>
-
-            {''.join(probability_rows)}
-
-            <div class="description-box {metadata['css_class']}">
-                {metadata['description']}
-            </div>
-        </div>
-        """
-    )
-
+    st.markdown('<div class="result-card">', unsafe_allow_html=True)
+    st.markdown('<div class="result-label">Hasil Deteksi</div>', unsafe_allow_html=True)
     st.markdown(
-        result_html,
+        f'<div class="result-class {metadata["css_class"]}">{label}</div>',
         unsafe_allow_html=True,
     )
+    st.markdown(
+        f'<div class="confidence-value">{confidence_percent:.1f}% yakin</div>',
+        unsafe_allow_html=True,
+    )
+    st.progress(confidence_percent / 100.0)
+    st.markdown('<div class="breakdown-title">Distribusi Probabilitas</div>', unsafe_allow_html=True)
+
+    for class_name, probability in zip(CLASS_NAMES, probabilities):
+        class_metadata = CLASS_META[class_name]
+        probability_percent = float(probability) * 100
+        st.markdown(
+            f'<div class="probability-name">{class_name}</div>',
+            unsafe_allow_html=True,
+        )
+        st.progress(probability_percent / 100.0)
+        st.caption(f'{probability_percent:.1f}%')
+
+    st.markdown(
+        f'<div class="description-box {metadata["css_class"]}">{metadata["description"]}</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def render_disclaimer() -> None:
