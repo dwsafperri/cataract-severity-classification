@@ -180,7 +180,7 @@ def render_styles() -> None:
 
             .result-card {
                 margin-top: 1rem;
-                padding: 1.5rem;
+                padding: 1.75rem 1.65rem 1.55rem;
                 border: 1px solid #E2E8F0;
                 border-radius: 16px;
                 background: #FFFFFF;
@@ -199,7 +199,7 @@ def render_styles() -> None:
             .result-class {
                 margin-bottom: 0.8rem;
                 font-family: 'Syne', sans-serif;
-                font-size: 2rem;
+                font-size: 2.45rem;
                 font-weight: 800;
                 line-height: 1.1;
             }
@@ -430,34 +430,46 @@ def render_result(
 ) -> None:
     metadata = CLASS_META[label]
     confidence_percent = confidence * 100
-    st.markdown('<div class="result-card">', unsafe_allow_html=True)
-    st.markdown('<div class="result-label">Hasil Deteksi</div>', unsafe_allow_html=True)
-    st.markdown(
-        f'<div class="result-class {metadata["css_class"]}">{label}</div>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f'<div class="confidence-value">{confidence_percent:.1f}% yakin</div>',
-        unsafe_allow_html=True,
-    )
-    st.progress(confidence_percent / 100.0)
-    st.markdown('<div class="breakdown-title">Distribusi Probabilitas</div>', unsafe_allow_html=True)
+    probability_rows = []
 
     for class_name, probability in zip(CLASS_NAMES, probabilities):
         class_metadata = CLASS_META[class_name]
         probability_percent = float(probability) * 100
-        st.markdown(
-            f'<div class="probability-name">{class_name}</div>',
-            unsafe_allow_html=True,
-        )
-        st.progress(probability_percent / 100.0)
-        st.caption(f'{probability_percent:.1f}%')
+        font_weight = "600" if class_name == label else "500"
 
-    st.markdown(
-        f'<div class="description-box {metadata["css_class"]}">{metadata["description"]}</div>',
-        unsafe_allow_html=True,
+        probability_rows.append(
+            dedent(
+                f"""
+                <div class="probability-row">
+                    <span class="probability-name" style="font-weight: {font_weight};">{class_name}</span>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: {probability_percent:.2f}%; background: {class_metadata['bar_color']};"></div>
+                    </div>
+                    <span class="probability-value">{probability_percent:.1f}%</span>
+                </div>
+                """
+            ).strip()
+        )
+
+    result_html = dedent(
+        f"""
+        <div class="result-card">
+            <div class="result-label">HASIL DETEKSI</div>
+            <div class="result-class {metadata['css_class']}">{label}</div>
+            <div class="confidence-row">
+                <span class="confidence-value">{confidence_percent:.1f}% confidence</span>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: {confidence_percent:.2f}%; background: {metadata['bar_color']};"></div>
+                </div>
+            </div>
+            <div class="breakdown-title">DISTRIBUSI PROBABILITAS</div>
+            {''.join(probability_rows)}
+            <div class="description-box {metadata['css_class']}">{metadata['description']}</div>
+        </div>
+        """
     )
-    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown(result_html, unsafe_allow_html=True)
 
 
 def render_disclaimer() -> None:
@@ -530,10 +542,13 @@ def main() -> None:
         )
         return
 
-    st.image(
-        image,
-        use_container_width=True,
-    )
+    image_col, result_col = st.columns([1.08, 0.92], gap="large")
+
+    with image_col:
+        st.image(
+            image,
+            use_container_width=True,
+        )
 
     try:
         with st.spinner("Menganalisis gambar..."):
@@ -554,11 +569,12 @@ def main() -> None:
 
         return
 
-    render_result(
-        label,
-        confidence,
-        probabilities,
-    )
+    with result_col:
+        render_result(
+            label,
+            confidence,
+            probabilities,
+        )
 
     render_disclaimer()
 
