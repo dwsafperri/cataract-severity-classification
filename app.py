@@ -156,6 +156,12 @@ def render_styles() -> None:
             }
 
             [data-testid="stFileUploader"] button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+                min-width: 128px;
+                padding: 0.55rem 1rem;
                 border: 1px solid #CBD5E1;
                 border-radius: 10px;
                 background: #FFFFFF;
