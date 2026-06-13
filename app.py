@@ -68,7 +68,7 @@ def render_styles() -> None:
 
                 .block-container {
                     padding: 2.5rem 1.5rem 4rem;
-                    max-width: 720px;
+                    max-width: 1000px;
                 }
 
                 .hero {
