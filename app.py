@@ -107,10 +107,12 @@ def render_styles() -> None:
                 }
 
                 .hero-sub {
+                    display: block;
                     font-size: 0.97rem;
                     color: #556070;
                     line-height: 1.65;
-                    max-width: 480px;
+                    text-align: center;
+                    width: min(100%, 560px);
                     margin: 0 auto;
                 }
 
