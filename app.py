@@ -508,12 +508,11 @@ def main() -> None:
         )
         return
 
-    image_column, result_column = st.columns([1, 1], gap="large")
-
-    with image_column:
+    # stacked layout: image first, then result card (consistent on desktop & mobile)
+    _, main_col, _ = st.columns([1, 3, 1], gap="small")
+    with main_col:
         st.image(image, use_container_width=True)
 
-    with result_column:
         try:
             with st.spinner("Menganalisis gambar..."):
                 time.sleep(0.4)
