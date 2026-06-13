@@ -318,7 +318,7 @@ MODEL_PATH = BASE_DIR / "best_model.keras"
 @st.cache_resource(show_spinner=False)
 def load_cataract_model():
     if not MODEL_PATH.exists():
-    raise FileNotFoundError(
+        raise FileNotFoundError(
 f"File model tidak ditemukan di: {MODEL_PATH}"
 
 return keras.models.load_model(
