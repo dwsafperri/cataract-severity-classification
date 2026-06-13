@@ -408,31 +408,16 @@ def predict_image(model, image: Image.Image):
 
 
 def render_hero() -> None:
-    st.markdown(
-        dedent(
-            """
-            <div class="hero-card">
-                <div class="hero-eyebrow">
-                    ResNet50 · Transfer Learning
-                </div>
-
-                <div class="hero-title">
-                    Cataract<span>AI</span>
-                </div>
-
-                <div class="hero-subtitle">
-                    Unggah foto mata untuk mendeteksi tingkat keparahan
-                    katarak secara otomatis: Normal, Immature, atau Mature.
-                </div>
-            </div>
-
-            <div class="upload-title">
-                Unggah foto mata
-            </div>
-            """
-        ),
-        unsafe_allow_html=True,
+    html = (
+        '<div class="hero">'
+        '<div class="hero-eyebrow">ResNet50 · Transfer Learning</div>'
+        '<h1 class="hero-title">Cataract<span>AI</span></h1>'
+        '<p class="hero-sub">Unggah foto mata untuk mendeteksi tingkat keparahan katarak secara otomatis - Normal, Immature, atau Mature.</p>'
+        '</div>'
     )
+
+    st.markdown(html, unsafe_allow_html=True)
+
 
 
 def render_result(
