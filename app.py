@@ -38,8 +38,6 @@ CLASS_META = {
     },
 }
 
-AMBIGUITY_THRESHOLD = 0.08
-
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "best_model.keras"
 
@@ -339,22 +337,7 @@ def predict_image(model, image: Image.Image):
             f"Output model: {len(predictions)}, jumlah kelas: {len(CLASS_NAMES)}."
         )
 
-    immature_index = CLASS_NAMES.index("Immature")
-    mature_index = CLASS_NAMES.index("Mature")
-    normal_index = CLASS_NAMES.index("Normal")
-
     predicted_index = int(np.argmax(predictions))
-
-    normal_probability = float(predictions[normal_index])
-    mature_probability = float(predictions[mature_index])
-    immature_probability = float(predictions[immature_index])
-
-    normal_mature_gap = abs(normal_probability - mature_probability)
-    if normal_mature_gap <= AMBIGUITY_THRESHOLD:
-        predicted_label = "Immature"
-        confidence = max(immature_probability, (normal_probability + mature_probability) / 2)
-        return predicted_label, confidence, predictions
-
     predicted_label = CLASS_NAMES[predicted_index]
     confidence = float(predictions[predicted_index])
     return predicted_label, confidence, predictions
