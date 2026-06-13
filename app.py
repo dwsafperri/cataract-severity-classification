@@ -25,7 +25,6 @@ dedent(
 """ <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
 
-```
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
@@ -271,8 +270,6 @@ dedent(
     """
 ),
 unsafe_allow_html=True,
-```
-
 )
 
 # ── Constants ─────────────────────────────────────────────────────────────────
