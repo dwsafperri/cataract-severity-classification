@@ -1,6 +1,7 @@
 import io
 import time
 from pathlib import Path
+from textwrap import dedent
 
 import keras
 import numpy as np
@@ -8,28 +9,27 @@ import streamlit as st
 from PIL import Image
 from keras.applications.resnet50 import preprocess_input
 
-
 # ── Page config ───────────────────────────────────────────────────────────────
+
 st.set_page_config(
-    page_title="CataractAI",
-    page_icon="👁️",
-    layout="centered",
-    initial_sidebar_state="collapsed",
+page_title="CataractAI",
+page_icon="👁️",
+layout="centered",
+initial_sidebar_state="collapsed",
 )
 
-
 # ── Styling ───────────────────────────────────────────────────────────────────
-st.markdown(
-    """
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
 
-    /* Reset & base */
+st.markdown(
+dedent(
+""" <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
+
+```
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
 
-    /* Hide default Streamlit chrome */
     #MainMenu, footer, header {
         visibility: hidden;
     }
@@ -39,7 +39,7 @@ st.markdown(
         max-width: 720px;
     }
 
-    /* ── Hero ── */
+    /* Hero */
     .hero {
         text-align: center;
         padding: 3rem 0 2rem;
@@ -75,15 +75,15 @@ st.markdown(
         margin: 0 auto;
     }
 
-    /* ── Upload zone ── */
+    /* Upload */
     .upload-label {
+        display: block;
         font-size: 0.78rem;
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: #6B7D99;
         margin-bottom: 0.4rem;
-        display: block;
     }
 
     [data-testid="stFileUploader"] {
@@ -98,11 +98,10 @@ st.markdown(
         border-color: #2563EB;
     }
 
-    /* ── Result card ── */
+    /* Result card */
     .result-card {
         border-radius: 16px;
         padding: 2rem 2rem 1.75rem;
-        margin-top: 1.5rem;
         border: 1px solid #E2E8F0;
         background: #FFFFFF;
         box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
@@ -149,6 +148,7 @@ st.markdown(
         font-size: 0.88rem;
         font-weight: 500;
         color: #374151;
+        white-space: nowrap;
     }
 
     .conf-bar-bg {
@@ -165,7 +165,7 @@ st.markdown(
         transition: width 0.8s ease;
     }
 
-    /* ── Per-class breakdown ── */
+    /* Distribution */
     .breakdown-title {
         font-size: 0.72rem;
         font-weight: 600;
@@ -204,16 +204,16 @@ st.markdown(
     }
 
     .bar-pct {
-        width: 40px;
+        width: 44px;
         text-align: right;
         font-size: 0.78rem;
         color: #6B7D99;
         flex-shrink: 0;
     }
 
-    /* ── Description pill ── */
+    /* Description */
     .desc-pill {
-        display: inline-block;
+        display: block;
         padding: 0.65rem 1rem;
         border-radius: 10px;
         font-size: 0.87rem;
@@ -239,7 +239,7 @@ st.markdown(
         border: 1px solid #FECACA;
     }
 
-    /* ── Disclaimer ── */
+    /* Disclaimer */
     .disclaimer {
         font-size: 0.75rem;
         color: #94A3B8;
@@ -248,315 +248,363 @@ st.markdown(
         line-height: 1.6;
     }
 
-    /* ── Divider ── */
     .thin-divider {
         border: none;
         border-top: 1px solid #E2E8F0;
         margin: 2rem 0 1.5rem;
     }
+
+    @media (max-width: 640px) {
+        .hero {
+            padding-top: 2rem;
+        }
+
+        .hero-title {
+            font-size: 2.1rem;
+        }
+
+        .result-card {
+            padding: 1.4rem;
+        }
+    }
     </style>
-    """,
-    unsafe_allow_html=True,
+    """
+),
+unsafe_allow_html=True,
+```
+
 )
 
-
 # ── Constants ─────────────────────────────────────────────────────────────────
+
 CLASS_NAMES = ["Immature", "Mature", "Normal"]
 
 CLASS_META = {
-    "Normal": {
-        "color": "#16A34A",
-        "bar_color": "#22C55E",
-        "css_class": "normal",
-        "description": (
-            "Lensa mata tampak jernih tanpa tanda-tanda kekeruhan. "
-            "Tidak terdeteksi katarak pada gambar ini."
-        ),
-    },
-    "Immature": {
-        "color": "#D97706",
-        "bar_color": "#F59E0B",
-        "css_class": "immature",
-        "description": (
-            "Terdeteksi kekeruhan sebagian pada lensa mata. "
-            "Katarak masih dalam tahap awal — penanganan dini disarankan."
-        ),
-    },
-    "Mature": {
-        "color": "#DC2626",
-        "bar_color": "#EF4444",
-        "css_class": "mature",
-        "description": (
-            "Lensa mata menunjukkan kekeruhan yang signifikan. "
-            "Katarak sudah berkembang — konsultasi dokter mata segera dianjurkan."
-        ),
-    },
+"Normal": {
+"bar_color": "#22C55E",
+"css_class": "normal",
+"description": (
+"Lensa mata tampak jernih tanpa tanda-tanda kekeruhan. "
+"Tidak terdeteksi katarak pada gambar ini."
+),
+},
+"Immature": {
+"bar_color": "#F59E0B",
+"css_class": "immature",
+"description": (
+"Terdeteksi kekeruhan sebagian pada lensa mata. "
+"Katarak masih dalam tahap awal — penanganan dini disarankan."
+),
+},
+"Mature": {
+"bar_color": "#EF4444",
+"css_class": "mature",
+"description": (
+"Lensa mata menunjukkan kekeruhan yang signifikan. "
+"Katarak sudah berkembang — konsultasi dokter mata segera dianjurkan."
+),
+},
 }
 
-
 # ── Model path ────────────────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent
+
+BASE_DIR = Path(**file**).resolve().parent
 MODEL_PATH = BASE_DIR / "best_model.keras"
 
-
 # ── Model loader ──────────────────────────────────────────────────────────────
+
 @st.cache_resource(show_spinner=False)
 def load_cataract_model():
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"File model tidak ditemukan di lokasi: {MODEL_PATH}"
-        )
+if not MODEL_PATH.exists():
+raise FileNotFoundError(
+f"File model tidak ditemukan di: {MODEL_PATH}"
+)
 
-    model = keras.models.load_model(
-        MODEL_PATH,
-        compile=False,
-    )
-
-    return model
-
+```
+return keras.models.load_model(
+    str(MODEL_PATH),
+    compile=False,
+    safe_mode=False,
+)
+```
 
 # ── Image preprocessing ───────────────────────────────────────────────────────
+
 def preprocess_image(image: Image.Image) -> np.ndarray:
-    image = image.convert("RGB")
-    image = image.resize((224, 224))
+image = image.convert("RGB")
+image = image.resize(
+(224, 224),
+Image.Resampling.LANCZOS,
+)
 
-    image_array = np.asarray(image, dtype=np.float32)
-    image_array = preprocess_input(image_array)
-    image_array = np.expand_dims(image_array, axis=0)
+```
+image_array = np.asarray(
+    image,
+    dtype=np.float32,
+)
 
-    return image_array
+image_array = preprocess_input(image_array)
+image_array = np.expand_dims(
+    image_array,
+    axis=0,
+)
 
+return image_array
+```
 
 # ── Prediction ────────────────────────────────────────────────────────────────
+
 def predict_image(model, image: Image.Image):
-    image_tensor = preprocess_image(image)
+image_tensor = preprocess_image(image)
 
-    predictions = model.predict(
-        image_tensor,
-        verbose=0,
-    )[0]
+```
+predictions = model.predict(
+    image_tensor,
+    verbose=0,
+)
 
-    predicted_index = int(np.argmax(predictions))
-    predicted_label = CLASS_NAMES[predicted_index]
-    confidence = float(predictions[predicted_index])
+predictions = np.asarray(predictions).squeeze()
 
-    return predicted_label, confidence, predictions
+if predictions.ndim != 1:
+    raise ValueError(
+        f"Format output model tidak sesuai: {predictions.shape}"
+    )
 
+if len(predictions) != len(CLASS_NAMES):
+    raise ValueError(
+        "Jumlah output model tidak sama dengan jumlah kelas. "
+        f"Output model: {len(predictions)}, "
+        f"jumlah kelas: {len(CLASS_NAMES)}."
+    )
+
+predicted_index = int(np.argmax(predictions))
+predicted_label = CLASS_NAMES[predicted_index]
+confidence = float(predictions[predicted_index])
+
+return predicted_label, confidence, predictions
+```
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
-st.markdown(
-    """
-    <div class="hero">
-        <div class="hero-eyebrow">
-            ResNet50 · Transfer Learning
-        </div>
 
+st.markdown(
+dedent(
+""" <div class="hero"> <div class="hero-eyebrow">
+ResNet50 · Transfer Learning </div>
+
+```
         <h1 class="hero-title">
             Cataract<span>AI</span>
         </h1>
 
         <p class="hero-sub">
-            Unggah foto mata untuk mendeteksi tingkat keparahan katarak
-            secara otomatis — Normal, Immature, atau Mature.
+            Unggah foto mata untuk mendeteksi tingkat keparahan
+            katarak secara otomatis — Normal, Immature, atau Mature.
         </p>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+    """
+),
+unsafe_allow_html=True,
+```
 
+)
 
 # ── Load model ────────────────────────────────────────────────────────────────
+
 try:
-    with st.spinner("Memuat model..."):
-        model = load_cataract_model()
+with st.spinner("Memuat model..."):
+model = load_cataract_model()
 
 except FileNotFoundError as error:
-    st.error(
-        f"Model tidak ditemukan. {error}",
-        icon="⚠️",
-    )
-    st.stop()
+st.error(
+f"Model tidak ditemukan. {error}",
+icon="⚠️",
+)
+st.stop()
 
 except Exception as error:
-    st.error(
-        "Model ditemukan, tetapi gagal dimuat. "
-        "Kemungkinan terdapat perbedaan versi TensorFlow atau Keras "
-        "antara proses training dan deployment.",
-        icon="⚠️",
-    )
-
-    with st.expander("Lihat detail error"):
-        st.code(str(error))
-
-    st.stop()
-
-
-st.markdown(
-    '<hr class="thin-divider">',
-    unsafe_allow_html=True,
+st.error(
+"Model ditemukan, tetapi gagal dimuat. "
+"Kemungkinan versi Keras pada deployment berbeda "
+"dengan versi Keras saat model disimpan.",
+icon="⚠️",
 )
 
+```
+with st.expander("Lihat detail error"):
+    st.write("Versi Keras:", keras.__version__)
+    st.write("Lokasi model:", str(MODEL_PATH))
+    st.code(str(error))
+
+st.stop()
+```
+
+st.markdown(
+'<hr class="thin-divider">',
+unsafe_allow_html=True,
+)
 
 # ── Upload image ──────────────────────────────────────────────────────────────
+
 st.markdown(
-    '<span class="upload-label">Foto Mata</span>',
-    unsafe_allow_html=True,
+'<span class="upload-label">Foto Mata</span>',
+unsafe_allow_html=True,
 )
 
 uploaded_file = st.file_uploader(
-    label="Foto Mata",
-    type=["jpg", "jpeg", "png"],
-    label_visibility="collapsed",
-    help="Format gambar yang didukung: JPG, JPEG, dan PNG.",
+label="Foto Mata",
+type=["jpg", "jpeg", "png"],
+label_visibility="collapsed",
+help="Format gambar yang didukung: JPG, JPEG, dan PNG.",
 )
 
-
 # ── Inference ─────────────────────────────────────────────────────────────────
+
 if uploaded_file is not None:
-    try:
-        uploaded_file.seek(0)
-        image = Image.open(
-            io.BytesIO(uploaded_file.read())
-        )
+try:
+image = Image.open(
+io.BytesIO(uploaded_file.getvalue())
+)
 
-    except Exception:
-        st.error(
-            "File gambar tidak dapat dibaca. "
-            "Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
-        )
-        st.stop()
+```
+except Exception:
+    st.error(
+        "File gambar tidak dapat dibaca. "
+        "Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
+    )
+    st.stop()
 
-    image_column, result_column = st.columns(
-        [1, 1],
-        gap="large",
+image_column, result_column = st.columns(
+    [1, 1],
+    gap="large",
+)
+
+with image_column:
+    st.image(
+        image,
+        use_container_width=True,
     )
 
-    with image_column:
-        st.image(
-            image,
-            use_container_width=True,
+with result_column:
+    try:
+        with st.spinner("Menganalisis gambar..."):
+            time.sleep(0.4)
+
+            label, confidence, all_probabilities = predict_image(
+                model,
+                image,
+            )
+
+    except Exception as error:
+        st.error(
+            "Terjadi kesalahan saat melakukan prediksi."
         )
 
-    with result_column:
-        try:
-            with st.spinner("Menganalisis gambar..."):
-                time.sleep(0.4)
+        with st.expander("Lihat detail error"):
+            st.code(str(error))
 
-                label, confidence, all_probabilities = predict_image(
-                    model,
-                    image,
-                )
+        st.stop()
 
-        except Exception as error:
-            st.error(
-                "Terjadi kesalahan saat melakukan prediksi."
-            )
+    metadata = CLASS_META[label]
+    css_class = metadata["css_class"]
+    bar_color = metadata["bar_color"]
+    confidence_percent = confidence * 100
 
-            with st.expander("Lihat detail error"):
-                st.code(str(error))
+    probability_rows = ""
 
-            st.stop()
+    for class_name, probability in zip(
+        CLASS_NAMES,
+        all_probabilities,
+    ):
+        class_metadata = CLASS_META[class_name]
+        probability_percent = float(probability) * 100
 
-        metadata = CLASS_META[label]
-        css_class = metadata["css_class"]
-        bar_color = metadata["bar_color"]
-        confidence_percent = confidence * 100
-
-        st.markdown(
-            f"""
-            <div class="result-card">
-                <div class="result-label">
-                    Hasil Deteksi
-                </div>
-
-                <div class="result-class {css_class}">
-                    {label}
-                </div>
-
-                <div class="confidence-row">
-                    <span class="conf-value">
-                        {confidence_percent:.1f}% confidence
-                    </span>
-
-                    <div class="conf-bar-bg">
-                        <div
-                            class="conf-bar-fill"
-                            style="
-                                width: {confidence_percent}%;
-                                background: {bar_color};
-                            "
-                        >
-                        </div>
-                    </div>
-                </div>
-
-                <div class="breakdown-title">
-                    Distribusi Probabilitas
-                </div>
-            """,
-            unsafe_allow_html=True,
+        font_weight = (
+            "600"
+            if class_name == label
+            else "500"
         )
 
-        for class_name, probability in zip(
-            CLASS_NAMES,
-            all_probabilities,
-        ):
-            class_metadata = CLASS_META[class_name]
-            probability_percent = float(probability) * 100
-
-            font_style = (
-                "font-weight: 600;"
-                if class_name == label
-                else ""
-            )
-
-            st.markdown(
-                f"""
-                <div class="bar-row">
-                    <span
-                        class="bar-class-name"
-                        style="{font_style}"
-                    >
-                        {class_name}
-                    </span>
-
-                    <div class="bar-bg">
-                        <div
-                            class="bar-fill"
-                            style="
-                                width: {probability_percent}%;
-                                background: {class_metadata['bar_color']};
-                            "
-                        >
-                        </div>
-                    </div>
-
-                    <span class="bar-pct">
-                        {probability_percent:.1f}%
-                    </span>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        st.markdown(
+        probability_rows += dedent(
             f"""
-                <div class="desc-pill {css_class}">
-                    {metadata['description']}
+            <div class="bar-row">
+                <span
+                    class="bar-class-name"
+                    style="font-weight: {font_weight};"
+                >
+                    {class_name}
+                </span>
+
+                <div class="bar-bg">
+                    <div
+                        class="bar-fill"
+                        style="
+                            width: {probability_percent:.2f}%;
+                            background: {class_metadata['bar_color']};
+                        "
+                    ></div>
+                </div>
+
+                <span class="bar-pct">
+                    {probability_percent:.1f}%
+                </span>
+            </div>
+            """
+        )
+
+    result_html = dedent(
+        f"""
+        <div class="result-card">
+            <div class="result-label">
+                Hasil Deteksi
+            </div>
+
+            <div class="result-class {css_class}">
+                {label}
+            </div>
+
+            <div class="confidence-row">
+                <span class="conf-value">
+                    {confidence_percent:.1f}% confidence
+                </span>
+
+                <div class="conf-bar-bg">
+                    <div
+                        class="conf-bar-fill"
+                        style="
+                            width: {confidence_percent:.2f}%;
+                            background: {bar_color};
+                        "
+                    ></div>
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
 
+            <div class="breakdown-title">
+                Distribusi Probabilitas
+            </div>
+
+            {probability_rows}
+
+            <div class="desc-pill {css_class}">
+                {metadata['description']}
+            </div>
+        </div>
+        """
+    )
+
+    st.markdown(
+        result_html,
+        unsafe_allow_html=True,
+    )
+```
 
 # ── Disclaimer ────────────────────────────────────────────────────────────────
+
 st.markdown(
-    """
-    <p class="disclaimer">
-        Hasil ini hanya untuk keperluan edukasi dan penelitian.<br>
-        Bukan pengganti diagnosis medis profesional.
-    </p>
-    """,
-    unsafe_allow_html=True,
+dedent(
+""" <p class="disclaimer">
+Hasil ini hanya untuk keperluan edukasi dan penelitian.<br>
+Bukan pengganti diagnosis medis profesional. </p>
+"""
+),
+unsafe_allow_html=True,
 )
