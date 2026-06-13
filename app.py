@@ -237,8 +237,13 @@ CLASS_META = {
 
 import os
 
-st.write("Current path:", os.getcwd())
-st.write("Files in repo:", os.listdir("."))
+from pathlib import Path
+
+p = Path("best_model.keras")
+
+st.write("Exists:", p.exists())
+st.write("Absolute:", p.resolve())
+st.write("Size MB:", p.stat().st_size / 1024 / 1024)
 
 # ── Model loader ──────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
