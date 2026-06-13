@@ -38,7 +38,7 @@ CLASS_META = {
     },
 }
 
-AMBIGUOUS_NORMAL_MATURE_GAP = 0.05
+AMBIGUITY_THRESHOLD = 0.08
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "best_model.keras"
@@ -339,26 +339,25 @@ def predict_image(model, image: Image.Image):
             f"Output model: {len(predictions)}, jumlah kelas: {len(CLASS_NAMES)}."
         )
 
-    class_probabilities = {
-        class_name: float(probability)
-        for class_name, probability in zip(CLASS_NAMES, predictions)
-    }
-
-    normal_probability = class_probabilities["Normal"]
-    mature_probability = class_probabilities["Mature"]
-
-    if abs(normal_probability - mature_probability) <= AMBIGUOUS_NORMAL_MATURE_GAP:
-        return (
-            "Immature",
-            class_probabilities["Immature"],
-            predictions,
-            "Nilai Normal dan Mature sangat berdekatan, jadi hasil ditandai sebagai Immature.",
-        )
+    immature_index = CLASS_NAMES.index("Immature")
+    mature_index = CLASS_NAMES.index("Mature")
+    normal_index = CLASS_NAMES.index("Normal")
 
     predicted_index = int(np.argmax(predictions))
+
+    normal_probability = float(predictions[normal_index])
+    mature_probability = float(predictions[mature_index])
+    immature_probability = float(predictions[immature_index])
+
+    normal_mature_gap = abs(normal_probability - mature_probability)
+    if normal_mature_gap <= AMBIGUITY_THRESHOLD:
+        predicted_label = "Immature"
+        confidence = max(immature_probability, (normal_probability + mature_probability) / 2)
+        return predicted_label, confidence, predictions
+
     predicted_label = CLASS_NAMES[predicted_index]
     confidence = float(predictions[predicted_index])
-    return predicted_label, confidence, predictions, None
+    return predicted_label, confidence, predictions
 
 
 def render_hero() -> None:
@@ -389,12 +388,7 @@ def render_upload():
     )
 
 
-def render_result(
-    label: str,
-    confidence: float,
-    probabilities: np.ndarray,
-    decision_note: str | None = None,
-) -> None:
+def render_result(label: str, confidence: float, probabilities: np.ndarray) -> None:
     metadata = CLASS_META[label]
     confidence_percent = confidence * 100
 
@@ -445,9 +439,6 @@ def render_result(
     )
 
     st.markdown(result_html, unsafe_allow_html=True)
-
-    if decision_note is not None:
-        st.info(decision_note)
 
 
 def render_disclaimer() -> None:
@@ -512,7 +503,7 @@ def main() -> None:
         try:
             with st.spinner("Menganalisis gambar..."):
                 time.sleep(0.4)
-                label, confidence, all_probabilities, decision_note = predict_image(model, image)
+                label, confidence, all_probabilities = predict_image(model, image)
         except Exception as error:
             st.error("Terjadi kesalahan saat melakukan prediksi.")
 
@@ -520,7 +511,7 @@ def main() -> None:
                 st.code(str(error))
             return
 
-        render_result(label, confidence, all_probabilities, decision_note)
+        render_result(label, confidence, all_probabilities)
 
     render_disclaimer()
 
