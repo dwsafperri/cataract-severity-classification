@@ -319,7 +319,8 @@ MODEL_PATH = BASE_DIR / "best_model.keras"
 def load_cataract_model():
     if not MODEL_PATH.exists():
         raise FileNotFoundError(
-f"File model tidak ditemukan di: {MODEL_PATH}"
+        f"File model tidak ditemukan di: {MODEL_PATH}"
+        )
 
 return keras.models.load_model(
     str(MODEL_PATH),
