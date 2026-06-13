@@ -67,19 +67,16 @@ def render_styles() -> None:
                 }
 
                 .block-container {
-                    padding: 2.5rem 1.5rem 4rem;
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    padding: 2rem 1.5rem 3rem;
                     max-width: 720px;
                 }
 
-                .main-content {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                .main-content > * {
-                    width: 100%;
-                    max-width: 860px;
+                .main-content-spacer {
+                    height: 0.5rem;
                 }
 
                 .hero {
@@ -133,7 +130,7 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
-                    max-width: 860px;
+                    max-width: 100%;
                     margin: 0 auto;
                 }
 
@@ -307,9 +304,6 @@ def render_styles() -> None:
                         padding: 1.4rem;
                     }
 
-                    .main-content > * {
-                        max-width: 100%;
-                    }
                 }
             </style>
             """
@@ -459,7 +453,6 @@ def render_disclaimer() -> None:
 def main() -> None:
     render_page_config()
     render_styles()
-    st.markdown('<div class="main-content">', unsafe_allow_html=True)
     render_hero()
 
     try:
@@ -467,7 +460,6 @@ def main() -> None:
             model = load_cataract_model()
     except FileNotFoundError as error:
         st.error(f"Model tidak ditemukan. {error}", icon="⚠️")
-        st.markdown('</div>', unsafe_allow_html=True)
         return
     except Exception as error:
         st.error(
@@ -481,7 +473,6 @@ def main() -> None:
             st.write("Lokasi model:", str(MODEL_PATH))
             st.code(str(error))
 
-        st.markdown('</div>', unsafe_allow_html=True)
         return
 
     st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
@@ -489,7 +480,6 @@ def main() -> None:
 
     if uploaded_file is None:
         render_disclaimer()
-        st.markdown('</div>', unsafe_allow_html=True)
         return
 
     try:
@@ -498,7 +488,6 @@ def main() -> None:
         st.error(
             "File gambar tidak dapat dibaca. Silakan unggah gambar JPG, JPEG, atau PNG yang valid."
         )
-        st.markdown('</div>', unsafe_allow_html=True)
         return
 
     preview_column = st.container()
@@ -516,13 +505,11 @@ def main() -> None:
 
             with st.expander("Lihat detail error"):
                 st.code(str(error))
-            st.markdown('</div>', unsafe_allow_html=True)
             return
 
         render_result(label, confidence, all_probabilities)
 
     render_disclaimer()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
