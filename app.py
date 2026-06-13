@@ -72,7 +72,7 @@ def render_styles() -> None:
                     flex-direction: column;
                     justify-content: center;
                     padding: 2rem 1.5rem 3rem;
-                    max-width: 720px;
+                    max-width: 640px;
                 }
 
                 .main-content-spacer {
@@ -112,7 +112,7 @@ def render_styles() -> None:
                     color: #556070;
                     line-height: 1.65;
                     text-align: center;
-                    width: min(100%, 500px);
+                    width: min(100%, 460px);
                     margin: 0 auto;
                 }
 
@@ -123,6 +123,7 @@ def render_styles() -> None:
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
                     color: #6B7D99;
+                    text-align: center;
                     margin-bottom: 0.4rem;
                 }
 
@@ -132,7 +133,7 @@ def render_styles() -> None:
                     padding: 0.5rem;
                     background: #F8FAFC;
                     transition: border-color 0.2s;
-                    max-width: 100%;
+                    width: min(100%, 640px);
                     margin: 0 auto;
                 }
 
@@ -146,7 +147,8 @@ def render_styles() -> None:
                     border: 1px solid #E2E8F0;
                     background: #FFFFFF;
                     box-shadow: 0 4px 24px rgba(15, 25, 35, 0.06);
-                    max-width: 100%;
+                    width: min(100%, 640px);
+                    margin: 0 auto;
                 }
 
                 .result-label {
