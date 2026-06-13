@@ -317,13 +317,11 @@ raise FileNotFoundError(
 f"File model tidak ditemukan di: {MODEL_PATH}"
 )
 
-```
 return keras.models.load_model(
     str(MODEL_PATH),
     compile=False,
     safe_mode=False,
 )
-```
 
 # ── Image preprocessing ───────────────────────────────────────────────────────
 
