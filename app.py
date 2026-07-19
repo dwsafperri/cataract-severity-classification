@@ -16,25 +16,22 @@ CLASS_META = {
     "Normal": {
         "bar_color": "#22C55E",
         "css_class": "normal",
-        "description": (
-            "Lensa mata tampak jernih tanpa tanda-tanda kekeruhan. "
-            "Tidak terdeteksi katarak pada gambar ini."
-        ),
+        "description": "Tidak terlihat tanda kekeruhan pada gambar.",
     },
     "Immature": {
         "bar_color": "#F59E0B",
         "css_class": "immature",
         "description": (
-            "Terdeteksi kekeruhan sebagian pada lensa mata. "
-            "Katarak masih dalam tahap awal, sehingga pemeriksaan lebih lanjut disarankan."
+            "Terlihat kekeruhan sebagian pada lensa. "
+            "Sebaiknya lakukan pemeriksaan lebih lanjut."
         ),
     },
     "Mature": {
         "bar_color": "#EF4444",
         "css_class": "mature",
         "description": (
-            "Lensa mata menunjukkan kekeruhan yang signifikan. "
-            "Konsultasi dengan dokter mata segera dianjurkan."
+            "Terlihat kekeruhan yang cukup jelas pada lensa. "
+            "Disarankan berkonsultasi dengan dokter mata."
         ),
     },
 }
@@ -398,72 +395,56 @@ def render_polish_styles() -> None:
             }
 
             html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-                background: radial-gradient(circle at 50% -10%, #eaf2ff 0, transparent 34rem), #f6f8fc;
+                background: #f7f8fa;
             }
 
             [data-testid="stDecoration"] { display: none !important; }
 
             [data-testid="stAppViewBlockContainer"], .block-container {
-                max-width: 920px !important;
-                padding: 2.25rem 1.5rem 2rem !important;
+                max-width: 720px !important;
+                padding: 1.25rem 1rem 1.5rem !important;
             }
 
             .hero-card {
                 position: relative;
-                overflow: hidden;
-                margin: 0 0 1rem !important;
-                padding: 2.45rem 3rem 2.3rem !important;
-                border: 1px solid rgba(218, 228, 241, .9);
-                border-radius: 24px;
-                background: rgba(255, 255, 255, .94);
-                box-shadow: 0 18px 50px rgba(43, 69, 108, .08);
+                margin: 0 0 .9rem !important;
+                padding: 1.35rem 1.5rem 1.3rem !important;
+                border: 1px solid #e1e6ed;
+                border-radius: 14px;
+                background: #fff;
+                box-shadow: 0 5px 18px rgba(43, 58, 78, .045);
             }
 
-            .hero-card::before {
-                content: "";
-                position: absolute;
-                width: 180px;
-                height: 180px;
-                top: -115px;
-                right: -45px;
-                border-radius: 50%;
-                background: linear-gradient(145deg, #dbeafe, #eef4ff);
-            }
+            .hero-card::before { display: none; }
 
             .brand-mark {
                 display: inline-grid;
                 place-items: center;
-                width: 42px;
-                height: 42px;
-                margin-bottom: .9rem;
-                border-radius: 13px;
-                color: #fff;
-                background: linear-gradient(145deg, #3b82f6, #1d4ed8);
-                box-shadow: 0 8px 20px rgba(37, 99, 235, .22);
+                display: none;
             }
 
             .brand-mark svg { width: 23px; height: 23px; }
             .hero-eyebrow {
-                margin: 0 0 .55rem !important;
-                color: #6680a4 !important;
-                font-size: .72rem !important;
-                font-weight: 700;
-                letter-spacing: .14em;
+                margin: 0 0 .35rem !important;
+                color: #7b8798 !important;
+                font-size: .63rem !important;
+                font-weight: 650;
+                letter-spacing: .11em;
             }
 
             .hero-title {
                 font-family: inherit !important;
-                font-size: clamp(2.25rem, 5vw, 3.35rem) !important;
-                font-weight: 760 !important;
-                letter-spacing: -.055em;
+                font-size: 2rem !important;
+                font-weight: 750 !important;
+                letter-spacing: -.045em;
             }
 
             .hero-subtitle {
-                max-width: 620px;
-                margin: 1rem auto 0 !important;
+                max-width: 500px;
+                margin: .55rem auto 0 !important;
                 color: var(--muted) !important;
-                font-size: 1rem !important;
-                line-height: 1.65 !important;
+                font-size: .82rem !important;
+                line-height: 1.5 !important;
             }
 
             .upload-heading {
@@ -471,21 +452,21 @@ def render_polish_styles() -> None:
                 align-items: flex-end;
                 justify-content: space-between;
                 gap: 1rem;
-                margin: 1.45rem 0 .65rem;
+                margin: 1rem 0 .5rem;
             }
 
-            .upload-title { color: var(--ink); font-size: 1rem; font-weight: 700; }
-            .upload-note { color: #8493a8; font-size: .78rem; white-space: nowrap; }
+            .upload-title { color: var(--ink); font-size: .86rem; font-weight: 700; }
+            .upload-note { color: #8493a8; font-size: .7rem; white-space: nowrap; }
 
             [data-testid="stFileUploader"] { width: 100% !important; margin: 0 !important; }
             [data-testid="stFileUploader"] section,
             [data-testid="stFileUploaderDropzone"] {
-                min-height: 154px !important;
-                padding: 1.4rem 1.6rem !important;
-                border: 1.5px dashed #b9c9dd !important;
-                border-radius: 18px !important;
-                background: rgba(255, 255, 255, .9) !important;
-                box-shadow: 0 10px 30px rgba(43, 69, 108, .055) !important;
+                min-height: 96px !important;
+                padding: .75rem 1rem !important;
+                border: 1px dashed #bdc8d6 !important;
+                border-radius: 12px !important;
+                background: #fff !important;
+                box-shadow: 0 4px 14px rgba(43, 58, 78, .035) !important;
                 transition: .2s ease !important;
             }
 
@@ -498,43 +479,43 @@ def render_polish_styles() -> None:
 
             [data-testid="stFileUploader"] section > div,
             [data-testid="stFileUploaderDropzone"] > div {
-                min-height: 100px !important;
-                gap: 1.25rem !important;
+                min-height: 66px !important;
+                gap: .75rem !important;
             }
 
             [data-testid="stFileUploaderDropzoneInstructions"] { gap: .3rem !important; }
             [data-testid="stFileUploader"] svg {
-                width: 2rem !important;
-                height: 2rem !important;
-                color: var(--primary) !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
+                color: #667892 !important;
             }
 
             [data-testid="stFileUploader"] p {
                 color: #334a68 !important;
-                font-size: .95rem !important;
+                font-size: .8rem !important;
                 font-weight: 600 !important;
             }
 
             [data-testid="stFileUploader"] small {
                 color: #8998ab !important;
-                font-size: .78rem !important;
+                font-size: .69rem !important;
             }
 
             [data-testid="stFileUploader"] button,
             [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {
                 min-width: auto !important;
-                min-height: 42px !important;
-                height: 42px !important;
-                padding: 0 1.15rem !important;
-                border: 1px solid #cbd7e6 !important;
-                border-radius: 11px !important;
+                min-height: 34px !important;
+                height: 34px !important;
+                padding: 0 .8rem !important;
+                border: 1px solid #c9d3df !important;
+                border-radius: 8px !important;
                 color: #23405f !important;
-                font-size: .86rem !important;
+                font-size: .73rem !important;
                 font-weight: 650 !important;
                 box-shadow: 0 3px 8px rgba(32, 57, 87, .06) !important;
             }
 
-            [data-testid="stFileUploader"] button * { font-size: .86rem !important; }
+            [data-testid="stFileUploader"] button * { font-size: .73rem !important; }
             [data-testid="stFileUploaderFile"] {
                 padding: .8rem 1rem !important;
                 border-radius: 12px !important;
@@ -542,23 +523,23 @@ def render_polish_styles() -> None:
             }
 
             [data-testid="stImage"] img {
-                height: 410px;
+                height: 300px;
                 max-height: none;
                 object-fit: contain;
                 padding: .6rem;
                 border: 1px solid var(--line);
-                border-radius: 18px;
+                border-radius: 12px;
                 background: #fff;
-                box-shadow: 0 12px 32px rgba(43, 69, 108, .07);
+                box-shadow: 0 5px 18px rgba(43, 58, 78, .045);
             }
 
             .result-card {
-                min-height: 410px;
+                min-height: 300px;
                 margin-top: 0;
-                padding: 1.5rem;
+                padding: 1.15rem;
                 border: 1px solid var(--line);
-                border-radius: 18px;
-                box-shadow: 0 12px 32px rgba(43, 69, 108, .07);
+                border-radius: 12px;
+                box-shadow: 0 5px 18px rgba(43, 58, 78, .045);
             }
 
             .result-label, .breakdown-title {
@@ -572,31 +553,31 @@ def render_polish_styles() -> None:
             .result-class {
                 margin-bottom: 1rem;
                 font-family: inherit;
-                font-size: 2.25rem;
+                font-size: 1.75rem;
                 font-weight: 760;
                 letter-spacing: -.04em;
             }
 
-            .confidence-row { margin-bottom: 1.5rem; }
-            .probability-row { margin-bottom: .65rem; }
-            .confidence-value { min-width: 105px; font-size: .78rem; font-weight: 700; }
-            .probability-name { width: 68px; font-size: .76rem; }
-            .probability-value { width: 42px; font-size: .73rem; }
-            .progress-track { height: 7px; }
-            .breakdown-title { margin-bottom: .75rem; }
+            .confidence-row { margin-bottom: 1rem; }
+            .probability-row { margin-bottom: .45rem; }
+            .confidence-value { min-width: 92px; font-size: .7rem; font-weight: 700; }
+            .probability-name { width: 62px; font-size: .69rem; }
+            .probability-value { width: 38px; font-size: .67rem; }
+            .progress-track { height: 5px; }
+            .breakdown-title { margin-bottom: .55rem; }
             .description-box {
-                margin-top: 1.05rem;
-                padding: .85rem .95rem;
-                border-radius: 11px;
-                font-size: .78rem;
-                line-height: 1.55;
+                margin-top: .75rem;
+                padding: .65rem .75rem;
+                border-radius: 8px;
+                font-size: .69rem;
+                line-height: 1.45;
             }
 
             .disclaimer {
-                margin: 1.25rem auto 0 !important;
-                padding-top: 1rem;
+                margin: .85rem auto 0 !important;
+                padding-top: .75rem;
                 border-top: 1px solid #e2e8f0;
-                font-size: .76rem !important;
+                font-size: .67rem !important;
                 line-height: 1.55 !important;
             }
 
@@ -604,21 +585,20 @@ def render_polish_styles() -> None:
 
             @media (max-width: 640px) {
                 [data-testid="stAppViewBlockContainer"], .block-container {
-                    padding: 1rem .8rem 1.25rem !important;
+                    padding: .75rem .65rem 1rem !important;
                 }
-                .hero-card { padding: 1.65rem 1.1rem 1.55rem !important; border-radius: 19px; }
-                .brand-mark { width: 38px; height: 38px; border-radius: 12px; }
-                .hero-title { font-size: 2.25rem !important; }
-                .hero-subtitle { font-size: .88rem !important; line-height: 1.55 !important; }
+                .hero-card { padding: 1.15rem .9rem !important; border-radius: 12px; }
+                .hero-title { font-size: 1.75rem !important; }
+                .hero-subtitle { font-size: .76rem !important; line-height: 1.45 !important; }
                 .upload-heading { align-items: flex-start; flex-direction: column; gap: .2rem; }
                 .upload-note { white-space: normal; }
                 [data-testid="stFileUploader"] section,
-                [data-testid="stFileUploaderDropzone"] { min-height: 140px !important; padding: 1rem !important; }
+                [data-testid="stFileUploaderDropzone"] { min-height: 90px !important; padding: .65rem !important; }
                 [data-testid="stFileUploader"] section > div,
                 [data-testid="stFileUploaderDropzone"] > div { gap: .75rem !important; }
-                [data-testid="stImage"] img { height: 300px; }
-                .result-card { min-height: 0; padding: 1.25rem; }
-                .result-class { font-size: 2rem; }
+                [data-testid="stImage"] img { height: 250px; }
+                .result-card { min-height: 0; padding: 1rem; }
+                .result-class { font-size: 1.65rem; }
             }
             </style>
             """
@@ -699,14 +679,10 @@ def predict_image(model, image: Image.Image):
 def render_hero() -> None:
     html = (
         '<div class="hero-card">'
-        '<div class="brand-mark" aria-hidden="true">'
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'
-        '<path d="M2.5 12s3.4-5.5 9.5-5.5S21.5 12 21.5 12s-3.4 5.5-9.5 5.5S2.5 12 2.5 12Z"/>'
-        '<circle cx="12" cy="12" r="2.7"/></svg></div>'
-        '<div class="hero-eyebrow">ResNet50 · Transfer Learning</div>'
+        '<div class="hero-eyebrow">Klasifikasi foto mata</div>'
         '<h1 class="hero-title">Cataract<span>AI</span></h1>'
-        '<div class="hero-subtitle">Skrining tingkat keparahan katarak dari foto mata '
-        'secara cepat—Normal, Immature, atau Mature.</div>'
+        '<div class="hero-subtitle">Unggah foto mata untuk melihat hasil klasifikasi '
+        'Normal, Immature, atau Mature.</div>'
         '</div>'
     )
 
@@ -745,15 +721,15 @@ def render_result(
     result_html = dedent(
         f"""
         <div class="result-card">
-            <div class="result-label">HASIL DETEKSI</div>
+            <div class="result-label">HASIL</div>
             <div class="result-class {metadata['css_class']}">{label}</div>
             <div class="confidence-row">
-                <span class="confidence-value">{confidence_percent:.1f}% confidence</span>
+                <span class="confidence-value">Keyakinan {confidence_percent:.1f}%</span>
                 <div class="progress-track">
                     <div class="progress-fill" style="width: {confidence_percent:.2f}%; background: {metadata['bar_color']};"></div>
                 </div>
             </div>
-            <div class="breakdown-title">DISTRIBUSI PROBABILITAS</div>
+            <div class="breakdown-title">RINCIAN HASIL</div>
             {''.join(probability_rows)}
             <div class="description-box {metadata['css_class']}">{metadata['description']}</div>
         </div>
@@ -768,8 +744,7 @@ def render_disclaimer() -> None:
         dedent(
             """
             <div class="disclaimer">
-                Hasil ini hanya digunakan untuk keperluan edukasi dan penelitian.<br>
-                Hasil prediksi bukan pengganti diagnosis medis profesional.
+                Untuk keperluan penelitian dan edukasi. Bukan pengganti diagnosis medis.
             </div>
             """
         ),
@@ -811,8 +786,8 @@ def main() -> None:
 
     st.markdown(
         '<div class="upload-heading">'
-        '<div class="upload-title">Unggah foto mata</div>'
-        '<div class="upload-note">JPG, JPEG, atau PNG · Maks. 200 MB</div>'
+        '<div class="upload-title">Pilih foto mata</div>'
+        '<div class="upload-note">JPG, JPEG, atau PNG</div>'
         '</div>',
         unsafe_allow_html=True,
     )
