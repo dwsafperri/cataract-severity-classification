@@ -452,13 +452,18 @@ def render_polish_styles() -> None:
                 align-items: flex-end;
                 justify-content: space-between;
                 gap: 1rem;
-                margin: 1rem 0 .5rem;
+                max-width: 560px;
+                margin: 1rem auto .5rem;
             }
 
             .upload-title { color: var(--ink); font-size: .86rem; font-weight: 700; }
             .upload-note { color: #8493a8; font-size: .7rem; white-space: nowrap; }
 
-            [data-testid="stFileUploader"] { width: 100% !important; margin: 0 !important; }
+            [data-testid="stFileUploader"] {
+                width: 100% !important;
+                max-width: 560px !important;
+                margin: 0 auto !important;
+            }
             [data-testid="stFileUploader"] section,
             [data-testid="stFileUploaderDropzone"] {
                 min-height: 96px !important;
