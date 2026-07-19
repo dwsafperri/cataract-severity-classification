@@ -78,26 +78,26 @@ def render_styles() -> None:
             }
 
             .block-container {
-                max-width: 760px;
-                padding: 1.25rem 1rem 2.25rem;
+                max-width: 700px;
+                padding: 0.8rem 0.85rem 1.5rem;
             }
 
             .hero-card {
-                margin-bottom: 1.25rem;
-                padding: 2rem 2rem 1.8rem;
+                margin-bottom: 0.8rem;
+                padding: 1.15rem 1.25rem 1.05rem;
                 border: 1px solid #E5EAF1;
-                border-radius: 22px;
+                border-radius: 16px;
                 background: #FFFFFF;
-                box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+                box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
                 text-align: center;
             }
 
             .hero-eyebrow {
-                margin-bottom: 0.65rem;
+                margin-bottom: 0.35rem;
                 color: #7183A1;
-                font-size: 0.72rem;
+                font-size: 0.61rem;
                 font-weight: 600;
-                letter-spacing: 0.18em;
+                letter-spacing: 0.14em;
                 text-transform: uppercase;
             }
 
@@ -105,9 +105,9 @@ def render_styles() -> None:
                 margin: 0;
                 color: #172033;
                 font-family: 'Syne', sans-serif;
-                font-size: 2.75rem;
+                font-size: 2.05rem;
                 font-weight: 800;
-                line-height: 1.05;
+                line-height: 1;
             }
 
             .hero-title span {
@@ -115,105 +115,98 @@ def render_styles() -> None:
             }
 
             .hero-subtitle {
-                max-width: 540px;
-                margin: 0.95rem auto 0;
+                max-width: 500px;
+                margin: 0.55rem auto 0;
                 color: #64748B;
-                font-size: 0.96rem;
-                line-height: 1.65;
-            }
-
-            .upload-title {
-                margin: 0 0 0.6rem 0.15rem;
-                color: #334155;
-                font-size: 0.78rem;
-                font-weight: 600;
-                letter-spacing: 0.08em;
-                text-transform: uppercase;
+                font-size: 0.82rem;
+                line-height: 1.45;
             }
 
             [data-testid="stFileUploader"] {
                 width: 100%;
-                margin-bottom: 0.4rem;
+                margin: 0 auto 0.2rem;
             }
 
             [data-testid="stFileUploader"] section {
-                min-height: 120px;
-                padding: 1rem 1.2rem;
-                border: 1.5px dashed #B8C6D9;
-                border-radius: 16px;
+                min-height: 82px;
+                padding: 0.55rem 0.75rem;
+                border: 1.25px dashed #B8C6D9;
+                border-radius: 12px;
                 background: #FFFFFF;
-                box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
-                transition:
-                    border-color 0.2s ease,
-                    background-color 0.2s ease,
-                    transform 0.2s ease;
-            }
-
-            [data-testid="stFileUploader"] small,
-            [data-testid="stFileUploader"] p,
-            [data-testid="stFileUploader"] span {
-                white-space: nowrap;
+                box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+                transition: border-color 0.2s ease, background-color 0.2s ease;
             }
 
             [data-testid="stFileUploader"] section:hover {
                 border-color: #2563EB;
                 background: #F7FAFF;
-                transform: translateY(-1px);
+            }
+
+            [data-testid="stFileUploader"] section > div {
+                gap: 0.45rem;
+            }
+
+            [data-testid="stFileUploader"] small,
+            [data-testid="stFileUploader"] p,
+            [data-testid="stFileUploader"] span {
+                font-size: 0.72rem !important;
+                line-height: 1.25 !important;
             }
 
             [data-testid="stFileUploader"] button {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                white-space: nowrap;
-                min-width: 110px;
-                padding: 0.5rem 0.85rem;
-                border: 1px solid #CBD5E1;
-                border-radius: 10px;
-                background: #FFFFFF;
-                color: #334155;
-                font-weight: 500;
+                min-width: 86px !important;
+                min-height: 30px !important;
+                padding: 0.28rem 0.58rem !important;
+                border: 1px solid #CBD5E1 !important;
+                border-radius: 8px !important;
+                background: #FFFFFF !important;
+                color: #334155 !important;
+                font-size: 0.72rem !important;
+                font-weight: 500 !important;
+                line-height: 1 !important;
+                white-space: nowrap !important;
             }
 
             [data-testid="stFileUploader"] button:hover {
-                border-color: #2563EB;
-                color: #2563EB;
+                border-color: #2563EB !important;
+                color: #2563EB !important;
             }
 
             [data-testid="stImage"] img {
                 display: block;
                 width: 100%;
-                max-width: 560px;
-                margin: 0.85rem auto 0;
+                max-height: 340px;
+                margin: 0.15rem auto 0;
+                object-fit: contain;
                 border: 1px solid #E2E8F0;
-                border-radius: 16px;
-                box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+                border-radius: 12px;
+                box-shadow: 0 5px 16px rgba(15, 23, 42, 0.05);
             }
 
             .result-card {
-                margin-top: 1rem;
-                padding: 1.75rem 1.65rem 1.55rem;
+                margin-top: 0.15rem;
+                padding: 1rem 1rem 0.9rem;
                 border: 1px solid #E2E8F0;
-                border-radius: 16px;
+                border-radius: 12px;
                 background: #FFFFFF;
-                box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+                box-shadow: 0 5px 16px rgba(15, 23, 42, 0.045);
             }
 
             .result-label {
-                margin-bottom: 0.35rem;
+                margin-bottom: 0.2rem;
                 color: #7C8AA0;
-                font-size: 0.7rem;
+                font-size: 0.6rem;
                 font-weight: 600;
-                letter-spacing: 0.14em;
+                letter-spacing: 0.12em;
                 text-transform: uppercase;
             }
 
             .result-class {
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.5rem;
                 font-family: 'Syne', sans-serif;
-                font-size: 2.45rem;
+                font-size: 1.8rem;
                 font-weight: 800;
-                line-height: 1.1;
+                line-height: 1.05;
             }
 
             .result-class.normal {
@@ -232,42 +225,42 @@ def render_styles() -> None:
             .probability-row {
                 display: flex;
                 align-items: center;
-                gap: 0.7rem;
+                gap: 0.45rem;
             }
 
             .confidence-row {
-                margin-bottom: 1.35rem;
+                margin-bottom: 0.8rem;
             }
 
             .probability-row {
-                margin-bottom: 0.6rem;
+                margin-bottom: 0.38rem;
             }
 
             .confidence-value {
-                min-width: 92px;
+                min-width: 78px;
                 color: #334155;
-                font-size: 0.83rem;
+                font-size: 0.69rem;
                 font-weight: 600;
             }
 
             .probability-name {
-                width: 78px;
+                width: 64px;
                 flex-shrink: 0;
                 color: #334155;
-                font-size: 0.82rem;
+                font-size: 0.68rem;
             }
 
             .probability-value {
-                width: 44px;
+                width: 38px;
                 flex-shrink: 0;
                 color: #64748B;
-                font-size: 0.78rem;
+                font-size: 0.66rem;
                 text-align: right;
             }
 
             .progress-track {
                 flex: 1;
-                height: 7px;
+                height: 5px;
                 overflow: hidden;
                 border-radius: 999px;
                 background: #E9EEF5;
@@ -279,21 +272,21 @@ def render_styles() -> None:
             }
 
             .breakdown-title {
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.48rem;
                 color: #7C8AA0;
-                font-size: 0.7rem;
+                font-size: 0.59rem;
                 font-weight: 600;
-                letter-spacing: 0.12em;
+                letter-spacing: 0.1em;
                 text-transform: uppercase;
             }
 
             .description-box {
-                margin-top: 1.15rem;
-                padding: 0.85rem 1rem;
-                border-radius: 12px;
+                margin-top: 0.7rem;
+                padding: 0.58rem 0.7rem;
+                border-radius: 9px;
                 color: #334155;
-                font-size: 0.86rem;
-                line-height: 1.55;
+                font-size: 0.71rem;
+                line-height: 1.42;
             }
 
             .description-box.normal {
@@ -312,38 +305,64 @@ def render_styles() -> None:
             }
 
             .disclaimer {
-                margin: 1.15rem auto 0;
+                margin: 0.75rem auto 0;
                 color: #94A3B8;
-                font-size: 0.73rem;
-                line-height: 1.6;
+                font-size: 0.63rem;
+                line-height: 1.45;
                 text-align: center;
+            }
+
+            [data-testid="stSpinner"] {
+                font-size: 0.78rem;
             }
 
             @media (max-width: 640px) {
                 .block-container {
-                    padding: 0.7rem 0.7rem 1.5rem;
+                    padding: 0.5rem 0.55rem 1rem;
                 }
 
                 .hero-card {
-                    padding: 1.5rem 1rem 1.35rem;
-                    border-radius: 18px;
+                    margin-bottom: 0.65rem;
+                    padding: 0.95rem 0.8rem 0.85rem;
+                    border-radius: 13px;
+                }
+
+                .hero-eyebrow {
+                    font-size: 0.55rem;
                 }
 
                 .hero-title {
-                    font-size: 2.15rem;
+                    font-size: 1.72rem;
                 }
 
                 .hero-subtitle {
-                    font-size: 0.9rem;
+                    margin-top: 0.42rem;
+                    font-size: 0.73rem;
+                    line-height: 1.4;
                 }
 
                 [data-testid="stFileUploader"] section {
-                    min-height: 105px;
-                    padding: 0.9rem;
+                    min-height: 74px;
+                    padding: 0.45rem 0.55rem;
+                }
+
+                [data-testid="stFileUploader"] button {
+                    min-width: 78px !important;
+                    min-height: 28px !important;
+                    padding: 0.24rem 0.48rem !important;
+                    font-size: 0.66rem !important;
+                }
+
+                [data-testid="stImage"] img {
+                    max-height: 290px;
                 }
 
                 .result-card {
-                    padding: 1.15rem;
+                    padding: 0.85rem;
+                }
+
+                .result-class {
+                    font-size: 1.55rem;
                 }
             }
             </style>
@@ -529,7 +548,7 @@ def main() -> None:
 
         return
 
-    _, main_col, _ = st.columns([1, 3, 1], gap="small")
+    _, main_col, _ = st.columns([1.15, 3.7, 1.15], gap="small")
     with main_col:
         uploaded_file = st.file_uploader(
             label="Foto Mata",
@@ -554,7 +573,7 @@ def main() -> None:
         )
         return
 
-    image_col, result_col = st.columns([1.08, 0.92], gap="large")
+    image_col, result_col = st.columns([1, 1], gap="small")
 
     with image_col:
         st.image(
