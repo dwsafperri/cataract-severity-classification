@@ -452,7 +452,7 @@ def render_polish_styles() -> None:
                 align-items: flex-end;
                 justify-content: space-between;
                 gap: 1rem;
-                max-width: 560px;
+                max-width: 460px;
                 margin: 1rem auto .5rem;
             }
 
@@ -461,7 +461,7 @@ def render_polish_styles() -> None:
 
             [data-testid="stFileUploader"] {
                 width: 100% !important;
-                max-width: 560px !important;
+                max-width: 460px !important;
                 margin: 0 auto !important;
             }
             [data-testid="stFileUploader"] section,
@@ -514,7 +514,7 @@ def render_polish_styles() -> None:
                 padding: 0 .8rem !important;
                 border: 1px solid #c9d3df !important;
                 border-radius: 8px !important;
-                color: #23405f !important;
+                color: #2563eb !important;
                 font-size: .73rem !important;
                 font-weight: 650 !important;
                 box-shadow: 0 3px 8px rgba(32, 57, 87, .06) !important;
