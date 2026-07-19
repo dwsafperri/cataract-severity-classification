@@ -65,109 +65,141 @@ def render_styles() -> None:
 
             html,
             body,
-            [data-testid="stAppViewContainer"] {
+            [data-testid="stAppViewContainer"],
+            [data-testid="stMain"] {
                 background: #F8FAFC;
             }
 
             #MainMenu,
             footer,
             header,
+            [data-testid="stHeader"],
             [data-testid="stHeaderActionElements"],
             [data-testid="stToolbar"] {
                 display: none !important;
             }
 
+            [data-testid="stAppViewBlockContainer"],
             .block-container {
-                max-width: 700px;
-                padding: 0.8rem 0.85rem 1.5rem;
+                width: 100% !important;
+                max-width: 620px !important;
+                padding: 0.55rem 0.75rem 1.15rem !important;
             }
 
             .hero-card {
-                margin-bottom: 0.8rem;
-                padding: 1.15rem 1.25rem 1.05rem;
-                border: 1px solid #E5EAF1;
-                border-radius: 16px;
+                margin: 0 0 0.55rem !important;
+                padding: 0.78rem 1rem 0.72rem !important;
+                border: 1px solid #E2E8F0;
+                border-radius: 13px;
                 background: #FFFFFF;
-                box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+                box-shadow: 0 4px 14px rgba(15, 23, 42, 0.045);
                 text-align: center;
             }
 
             .hero-eyebrow {
-                margin-bottom: 0.35rem;
-                color: #7183A1;
-                font-size: 0.61rem;
+                margin: 0 0 0.2rem !important;
+                color: #7183A1 !important;
+                font-size: 0.54rem !important;
                 font-weight: 600;
-                letter-spacing: 0.14em;
+                line-height: 1.2;
+                letter-spacing: 0.13em;
                 text-transform: uppercase;
             }
 
             .hero-title {
-                margin: 0;
-                color: #172033;
-                font-family: 'Syne', sans-serif;
-                font-size: 2.05rem;
-                font-weight: 800;
-                line-height: 1;
+                margin: 0 !important;
+                color: #172033 !important;
+                font-family: 'Syne', sans-serif !important;
+                font-size: 1.65rem !important;
+                font-weight: 800 !important;
+                line-height: 1 !important;
             }
 
             .hero-title span {
-                color: #2563EB;
+                color: #2563EB !important;
             }
 
             .hero-subtitle {
-                max-width: 500px;
-                margin: 0.55rem auto 0;
-                color: #64748B;
-                font-size: 0.82rem;
-                line-height: 1.45;
+                max-width: 455px;
+                margin: 0.35rem auto 0 !important;
+                color: #64748B !important;
+                font-size: 0.72rem !important;
+                line-height: 1.35 !important;
             }
 
             [data-testid="stFileUploader"] {
-                width: 100%;
-                margin: 0 auto 0.2rem;
+                width: 100% !important;
+                margin: 0 auto 0.1rem !important;
             }
 
-            [data-testid="stFileUploader"] section {
-                min-height: 82px;
-                padding: 0.55rem 0.75rem;
-                border: 1.25px dashed #B8C6D9;
-                border-radius: 12px;
-                background: #FFFFFF;
-                box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
-                transition: border-color 0.2s ease, background-color 0.2s ease;
+            [data-testid="stFileUploader"] section,
+            [data-testid="stFileUploaderDropzone"] {
+                min-height: 58px !important;
+                padding: 0.35rem 0.5rem !important;
+                border: 1.2px dashed #B8C6D9 !important;
+                border-radius: 10px !important;
+                background: #FFFFFF !important;
+                box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03) !important;
             }
 
-            [data-testid="stFileUploader"] section:hover {
-                border-color: #2563EB;
-                background: #F7FAFF;
+            [data-testid="stFileUploader"] section:hover,
+            [data-testid="stFileUploaderDropzone"]:hover {
+                border-color: #2563EB !important;
+                background: #F7FAFF !important;
             }
 
-            [data-testid="stFileUploader"] section > div {
-                gap: 0.45rem;
+            [data-testid="stFileUploader"] section > div,
+            [data-testid="stFileUploaderDropzone"] > div {
+                min-height: 0 !important;
+                gap: 0.35rem !important;
+                padding: 0 !important;
             }
 
-            [data-testid="stFileUploader"] small,
+            [data-testid="stFileUploaderDropzoneInstructions"] {
+                gap: 0.05rem !important;
+            }
+
+            [data-testid="stFileUploader"] svg {
+                width: 1.35rem !important;
+                height: 1.35rem !important;
+            }
+
             [data-testid="stFileUploader"] p,
-            [data-testid="stFileUploader"] span {
-                font-size: 0.72rem !important;
-                line-height: 1.25 !important;
+            [data-testid="stFileUploader"] small,
+            [data-testid="stFileUploader"] span,
+            [data-testid="stFileUploaderDropzoneInstructions"] * {
+                margin: 0 !important;
+                color: #64748B !important;
+                font-size: 0.66rem !important;
+                line-height: 1.15 !important;
             }
 
-            [data-testid="stFileUploader"] button {
-                min-width: 86px !important;
-                min-height: 30px !important;
-                padding: 0.28rem 0.58rem !important;
+            [data-testid="stFileUploader"] button,
+            [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {
+                width: auto !important;
+                min-width: 74px !important;
+                min-height: 26px !important;
+                height: 26px !important;
+                padding: 0 0.48rem !important;
                 border: 1px solid #CBD5E1 !important;
-                border-radius: 8px !important;
+                border-radius: 7px !important;
                 background: #FFFFFF !important;
                 color: #334155 !important;
-                font-size: 0.72rem !important;
+                font-size: 0.65rem !important;
                 font-weight: 500 !important;
                 line-height: 1 !important;
                 white-space: nowrap !important;
             }
 
-            [data-testid="stFileUploader"] button:hover {
+            [data-testid="stFileUploader"] button *,
+            [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] * {
+                color: inherit !important;
+                font-size: 0.65rem !important;
+                line-height: 1 !important;
+            }
+
+            [data-testid="stFileUploader"] button:hover,
+            [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"]:hover {
                 border-color: #2563EB !important;
                 color: #2563EB !important;
             }
@@ -175,92 +207,79 @@ def render_styles() -> None:
             [data-testid="stImage"] img {
                 display: block;
                 width: 100%;
-                max-height: 340px;
-                margin: 0.15rem auto 0;
+                max-height: 300px;
+                margin: 0.05rem auto 0;
                 object-fit: contain;
                 border: 1px solid #E2E8F0;
-                border-radius: 12px;
-                box-shadow: 0 5px 16px rgba(15, 23, 42, 0.05);
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
             }
 
             .result-card {
-                margin-top: 0.15rem;
-                padding: 1rem 1rem 0.9rem;
+                margin-top: 0.05rem;
+                padding: 0.78rem 0.8rem 0.72rem;
                 border: 1px solid #E2E8F0;
-                border-radius: 12px;
+                border-radius: 10px;
                 background: #FFFFFF;
-                box-shadow: 0 5px 16px rgba(15, 23, 42, 0.045);
+                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
             }
 
             .result-label {
-                margin-bottom: 0.2rem;
+                margin-bottom: 0.14rem;
                 color: #7C8AA0;
-                font-size: 0.6rem;
+                font-size: 0.53rem;
                 font-weight: 600;
-                letter-spacing: 0.12em;
+                letter-spacing: 0.11em;
                 text-transform: uppercase;
             }
 
             .result-class {
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.36rem;
                 font-family: 'Syne', sans-serif;
-                font-size: 1.8rem;
+                font-size: 1.48rem;
                 font-weight: 800;
-                line-height: 1.05;
+                line-height: 1;
             }
 
-            .result-class.normal {
-                color: #16A34A;
-            }
-
-            .result-class.immature {
-                color: #D97706;
-            }
-
-            .result-class.mature {
-                color: #DC2626;
-            }
+            .result-class.normal { color: #16A34A; }
+            .result-class.immature { color: #D97706; }
+            .result-class.mature { color: #DC2626; }
 
             .confidence-row,
             .probability-row {
                 display: flex;
                 align-items: center;
-                gap: 0.45rem;
+                gap: 0.35rem;
             }
 
-            .confidence-row {
-                margin-bottom: 0.8rem;
-            }
-
-            .probability-row {
-                margin-bottom: 0.38rem;
-            }
+            .confidence-row { margin-bottom: 0.58rem; }
+            .probability-row { margin-bottom: 0.28rem; }
 
             .confidence-value {
-                min-width: 78px;
+                min-width: 67px;
                 color: #334155;
-                font-size: 0.69rem;
+                font-size: 0.59rem;
                 font-weight: 600;
             }
 
             .probability-name {
-                width: 64px;
+                width: 56px;
                 flex-shrink: 0;
                 color: #334155;
-                font-size: 0.68rem;
+                font-size: 0.59rem;
             }
 
             .probability-value {
-                width: 38px;
+                width: 34px;
                 flex-shrink: 0;
                 color: #64748B;
-                font-size: 0.66rem;
+                font-size: 0.57rem;
                 text-align: right;
             }
 
             .progress-track {
                 flex: 1;
-                height: 5px;
+                height: 4px;
                 overflow: hidden;
                 border-radius: 999px;
                 background: #E9EEF5;
@@ -272,21 +291,21 @@ def render_styles() -> None:
             }
 
             .breakdown-title {
-                margin-bottom: 0.48rem;
+                margin-bottom: 0.35rem;
                 color: #7C8AA0;
-                font-size: 0.59rem;
+                font-size: 0.52rem;
                 font-weight: 600;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.09em;
                 text-transform: uppercase;
             }
 
             .description-box {
-                margin-top: 0.7rem;
-                padding: 0.58rem 0.7rem;
-                border-radius: 9px;
+                margin-top: 0.48rem;
+                padding: 0.46rem 0.55rem;
+                border-radius: 7px;
                 color: #334155;
-                font-size: 0.71rem;
-                line-height: 1.42;
+                font-size: 0.61rem;
+                line-height: 1.35;
             }
 
             .description-box.normal {
@@ -305,65 +324,53 @@ def render_styles() -> None:
             }
 
             .disclaimer {
-                margin: 0.75rem auto 0;
-                color: #94A3B8;
-                font-size: 0.63rem;
-                line-height: 1.45;
+                margin: 0.5rem auto 0 !important;
+                color: #94A3B8 !important;
+                font-size: 0.56rem !important;
+                line-height: 1.35 !important;
                 text-align: center;
             }
 
             [data-testid="stSpinner"] {
-                font-size: 0.78rem;
+                font-size: 0.68rem !important;
+            }
+
+            div[data-testid="stHorizontalBlock"] {
+                gap: 0.65rem !important;
             }
 
             @media (max-width: 640px) {
+                [data-testid="stAppViewBlockContainer"],
                 .block-container {
-                    padding: 0.5rem 0.55rem 1rem;
+                    max-width: 100% !important;
+                    padding: 0.4rem 0.5rem 0.85rem !important;
                 }
 
                 .hero-card {
-                    margin-bottom: 0.65rem;
-                    padding: 0.95rem 0.8rem 0.85rem;
-                    border-radius: 13px;
+                    padding: 0.68rem 0.72rem 0.62rem !important;
+                    border-radius: 11px;
                 }
 
-                .hero-eyebrow {
-                    font-size: 0.55rem;
+                .hero-title { font-size: 1.45rem !important; }
+                .hero-subtitle { font-size: 0.66rem !important; }
+
+                [data-testid="stFileUploader"] section,
+                [data-testid="stFileUploaderDropzone"] {
+                    min-height: 54px !important;
+                    padding: 0.3rem 0.42rem !important;
                 }
 
-                .hero-title {
-                    font-size: 1.72rem;
+                [data-testid="stFileUploader"] button,
+                [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {
+                    min-width: 68px !important;
+                    height: 24px !important;
+                    min-height: 24px !important;
+                    font-size: 0.61rem !important;
                 }
 
-                .hero-subtitle {
-                    margin-top: 0.42rem;
-                    font-size: 0.73rem;
-                    line-height: 1.4;
-                }
-
-                [data-testid="stFileUploader"] section {
-                    min-height: 74px;
-                    padding: 0.45rem 0.55rem;
-                }
-
-                [data-testid="stFileUploader"] button {
-                    min-width: 78px !important;
-                    min-height: 28px !important;
-                    padding: 0.24rem 0.48rem !important;
-                    font-size: 0.66rem !important;
-                }
-
-                [data-testid="stImage"] img {
-                    max-height: 290px;
-                }
-
-                .result-card {
-                    padding: 0.85rem;
-                }
-
-                .result-class {
-                    font-size: 1.55rem;
-                }
+                [data-testid="stImage"] img { max-height: 250px; }
+                .result-card { padding: 0.68rem; }
+                .result-class { font-size: 1.32rem; }
             }
             </style>
             """
