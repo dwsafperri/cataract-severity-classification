@@ -751,7 +751,7 @@ def render_disclaimer() -> None:
         dedent(
             """
             <div class="disclaimer">
-                Untuk keperluan penelitian dan edukasi. Bukan pengganti diagnosis medis.
+                Hanya untuk penelitian dan edukasi. Bukan pengganti diagnosis medis profesional.
             </div>
             """
         ),
