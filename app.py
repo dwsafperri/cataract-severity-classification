@@ -11,6 +11,7 @@ from keras.applications.resnet50 import preprocess_input
 
 
 CLASS_NAMES = ["Immature", "Mature", "Normal"]
+ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png"}
 
 CLASS_META = {
     "Normal": {
@@ -799,12 +800,28 @@ def main() -> None:
 
     uploaded_file = st.file_uploader(
         label="Foto Mata",
-        type=["jpg", "jpeg", "png"],
+        # Jangan membatasi dialog pemilih file agar pengujian format tidak
+        # valid tetap dapat dilakukan. Validasi dilakukan setelah file dipilih.
+        type=None,
         label_visibility="collapsed",
-        help="Format gambar yang didukung: JPG, JPEG, dan PNG.",
+        help=(
+            "Anda dapat memilih file apa pun, tetapi hanya gambar JPG, "
+            "JPEG, dan PNG yang dapat diproses."
+        ),
     )
 
     if uploaded_file is None:
+        render_disclaimer()
+        return
+
+    file_extension = Path(uploaded_file.name).suffix.lower().lstrip(".")
+
+    if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
+        st.warning(
+            "Format file tidak didukung. "
+            "Silakan unggah gambar dengan format JPG, JPEG, atau PNG.",
+            icon="⚠️",
+        )
         render_disclaimer()
         return
 
