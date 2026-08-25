@@ -13,6 +13,9 @@ from keras.applications.resnet50 import preprocess_input
 CLASS_NAMES = ["Immature", "Mature", "Normal"]
 ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png"}
 ALLOWED_IMAGE_FORMATS = {"JPEG", "PNG"}
+DIALOG_DECORATOR = (
+    st.dialog if hasattr(st, "dialog") else st.experimental_dialog
+)
 
 CLASS_META = {
     "Normal": {
@@ -759,6 +762,14 @@ def render_disclaimer() -> None:
     )
 
 
+@DIALOG_DECORATOR("Format File Tidak Didukung")
+def show_invalid_format_dialog(message: str) -> None:
+    st.warning(message, icon="⚠️")
+    st.caption(
+        "Tutup popup ini, lalu pilih gambar dengan format JPG, JPEG, atau PNG."
+    )
+
+
 def main() -> None:
     render_page_config()
     render_styles()
@@ -818,10 +829,9 @@ def main() -> None:
     file_extension = Path(uploaded_file.name).suffix.lower().lstrip(".")
 
     if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
-        st.warning(
+        show_invalid_format_dialog(
             "Format file tidak didukung. "
-            "Silakan unggah gambar dengan format JPG, JPEG, atau PNG.",
-            icon="⚠️",
+            "Silakan unggah gambar dengan format JPG, JPEG, atau PNG."
         )
         render_disclaimer()
         return
@@ -843,10 +853,9 @@ def main() -> None:
         return
 
     if image.format not in ALLOWED_IMAGE_FORMATS:
-        st.warning(
+        show_invalid_format_dialog(
             "Format isi file tidak didukung. "
-            "Silakan unggah gambar asli dengan format JPG, JPEG, atau PNG.",
-            icon="⚠️",
+            "Silakan unggah gambar asli dengan format JPG, JPEG, atau PNG."
         )
         render_disclaimer()
         return
